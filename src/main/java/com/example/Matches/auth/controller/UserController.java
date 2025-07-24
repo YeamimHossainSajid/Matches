@@ -28,8 +28,7 @@ public class UserController {
 
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> create(@ModelAttribute UserRequestDTO requestDto) throws IOException {
-        MultipartFile profilpic = requestDto.getProfilpic();
-        userService.create(requestDto, profilpic);
+        userService.create(requestDto);
         return ResponseEntity.ok("Successfully created user");
     }
 
@@ -55,7 +54,7 @@ public class UserController {
 
     @PutMapping(value = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String>Update(@RequestParam Long id, @ModelAttribute UserUpdateRequestDto requestDTO ) throws IOException {
-        userService.updateUser(id,requestDTO, requestDTO.profilpic());
+        userService.updateUser(id,requestDTO);
         return ResponseEntity.ok("Successfully updated user");
     }
 

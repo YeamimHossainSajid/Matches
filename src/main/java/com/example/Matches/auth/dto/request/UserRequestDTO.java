@@ -5,8 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserRequestDTO {
         private String username;
         private String email;
-        private String password;
-        private MultipartFile profilpic; // Include MultipartFile
+        private String password;// Include MultipartFile
 
         // Getters and Setters
         public String getUsername() { return username; }
@@ -18,6 +17,4 @@ public class UserRequestDTO {
         public String getPassword() { return password; }
         public void setPassword(String password) { this.password = password; }
 
-        public MultipartFile getProfilpic() { return profilpic; }
-        public void setProfilpic(MultipartFile profilpic) { this.profilpic = profilpic; }
 }

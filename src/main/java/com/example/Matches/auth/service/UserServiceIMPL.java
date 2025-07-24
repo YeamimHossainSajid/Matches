@@ -41,14 +41,7 @@ public class UserServiceIMPL implements UserService {
    }
 
 
-   public User ConvertToEntity(User user, UserRequestDTO userRequestDTO, MultipartFile profilepic) throws IOException {
-       String   profileImageUrl = "https://res.cloudinary.com/dxmwiwy6g/image/upload/v1740298839/jhp0yhawmfwffy195dn8.jpg";
-
-       if (profilepic != null) {
-           Map<String, Object> heroUploadResult = cloudneryImageService.upload(profilepic);
-           profileImageUrl = (String) heroUploadResult.get("secure_url");
-       }
-
+   public User ConvertToEntity(User user, UserRequestDTO userRequestDTO) throws IOException {
 
        user.setUsername( userRequestDTO.getUsername() );
        user.setEmail( userRequestDTO.getEmail() );
@@ -60,13 +53,13 @@ public class UserServiceIMPL implements UserService {
 
 
 
-    public void create(UserRequestDTO requestDto, MultipartFile heroImageFile) throws IOException {
+    public void create(UserRequestDTO requestDto) throws IOException {
        User user1=userRepository.findByUsername(requestDto.getUsername());
        if(user1!=null){
            throw new RuntimeException("User already exists");
        }
 
-       User user = ConvertToEntity(new User(), requestDto, heroImageFile);
+       User user = ConvertToEntity(new User(), requestDto);
 
        userRepository.save(user);
 
@@ -101,11 +94,11 @@ public class UserServiceIMPL implements UserService {
 
 
     @Override
-    public void updateUser(Long id, UserUpdateRequestDto userRequestDTO, MultipartFile heroImageFile) throws IOException {
+    public void updateUser(Long id, UserUpdateRequestDto userRequestDTO) throws IOException {
 
        User user=userRepository.findById( id ).get();
 
-       User updateUser = ConvertToEntityUpdate(user, userRequestDTO, heroImageFile);
+       User updateUser = ConvertToEntityUpdate(user, userRequestDTO);
 
        userRepository.save( updateUser );
 
@@ -116,10 +109,10 @@ public class UserServiceIMPL implements UserService {
         return userRepository.searchByUsername( username );
     }
 
-    public User ConvertToEntityUpdate(User user,UserUpdateRequestDto userRequestDTO,MultipartFile profilepic) throws IOException {
-
-        Map<String, Object> heroUploadResult = cloudneryImageService.upload(profilepic);
-        String profileImageUrl = (String) heroUploadResult.get("secure_url");
+    public User ConvertToEntityUpdate(User user,UserUpdateRequestDto userRequestDTO) throws IOException {
+//
+//        Map<String, Object> heroUploadResult = cloudneryImageService.upload(profilepic);
+//        String profileImageUrl = (String) heroUploadResult.get("secure_url");
 
         return user;
     }
