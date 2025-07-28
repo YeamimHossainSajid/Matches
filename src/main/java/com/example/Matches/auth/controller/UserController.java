@@ -10,7 +10,6 @@ import com.example.Matches.auth.service.UserServiceIMPL;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -26,8 +25,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> create(@ModelAttribute UserRequestDTO requestDto) throws IOException {
+    @PostMapping(value = "/add")
+    public ResponseEntity<String> create(@RequestBody UserRequestDTO requestDto) throws IOException {
         userService.create(requestDto);
         return ResponseEntity.ok("Successfully created user");
     }
