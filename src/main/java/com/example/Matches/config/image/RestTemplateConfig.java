@@ -1,4 +1,4 @@
-package com.example.Matches.config.ai.service;
+package com.example.Matches.config.image;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

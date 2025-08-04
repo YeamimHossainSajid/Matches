@@ -11,6 +11,5 @@ public record LoginResponseDTO(
         String email,
 
         Set< String > roles
-
 ) implements Serializable {
 }

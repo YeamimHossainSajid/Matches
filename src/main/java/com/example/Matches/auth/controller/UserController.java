@@ -2,9 +2,7 @@ package com.example.Matches.auth.controller;
 
 import com.example.Matches.auth.dto.request.UserRequestDTO;
 import com.example.Matches.auth.dto.request.UserRoleRequestDTO;
-import com.example.Matches.auth.dto.request.UserUpdateRequestDto;
 import com.example.Matches.auth.dto.response.CustomUserResponseDTO;
-import com.example.Matches.auth.dto.response.UserResponseDto;
 import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.auth.service.UserServiceIMPL;
 import org.springframework.http.MediaType;
@@ -25,13 +23,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/add")
-    public ResponseEntity<String> create(@RequestBody UserRequestDTO requestDto) throws IOException {
-        userService.create(requestDto);
-        return ResponseEntity.ok("Successfully created user");
+    @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity< String > create(@ModelAttribute UserRequestDTO requestDto) throws IOException {
+      String s=  userService.create(requestDto);
+        return ResponseEntity.ok(s);
     }
 
-
+    @PostMapping("/validate")
+    public String validateOtp(@RequestParam String email, @RequestParam String otp) {
+        return userService.validateOtp(email, otp);
+    }
 
     @GetMapping( "{id}" )
     public ResponseEntity<CustomUserResponseDTO> readOne(@PathVariable( "id" ) Long id ) {
@@ -45,6 +46,7 @@ public class UserController {
         userService.setUserRoles( requestDTO ) ;
         return ResponseEntity.ok("Successfully set user roles");
     }
+
     @DeleteMapping
     public ResponseEntity<String>delete(@RequestParam Long id ) {
         userRepo.deleteById( id );
@@ -52,37 +54,14 @@ public class UserController {
     }
 
     @PutMapping(value = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String>Update(@RequestParam Long id, @ModelAttribute UserUpdateRequestDto requestDTO ) throws IOException {
+    public ResponseEntity<String>Update(@RequestParam Long id, @ModelAttribute UserRequestDTO requestDTO ) throws IOException {
         userService.updateUser(id,requestDTO);
         return ResponseEntity.ok("Successfully updated user");
     }
 
     @GetMapping("search/{username}")
-    public ResponseEntity<UserResponseDto> searchByUserName(@PathVariable("username") String username) {
+    public ResponseEntity<CustomUserResponseDTO> searchByUserName(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.searchByUsername(username));
     }
-
-//    @MessageMapping("/user.addUser")
-//    @SendTo("/user/public")
-//    public User addUser(
-//            @Payload User user
-//    ) {
-//        userService.saveActiveUser(user);
-//        return user;
-//    }
-
-//    @MessageMapping("/user.disconnectUser")
-//    @SendTo("/user/public")
-//    public User disconnectUser(
-//            @Payload User user
-//    ) {
-//        userService.disconnect(user);
-//        return user;
-//    }
-
-//    @GetMapping("/users/connected")
-//    public ResponseEntity<List<User>> findConnectedUsers() {
-//        return ResponseEntity.ok(userService.findConnectedUsers());
-//    }
 
 }

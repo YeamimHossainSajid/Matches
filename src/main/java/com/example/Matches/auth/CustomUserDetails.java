@@ -98,5 +98,4 @@ public class CustomUserDetails implements UserDetails, Principal, Serializable {
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
-
 }

@@ -25,22 +25,23 @@ public class CohereService {
         this.objectMapper = objectMapper;
     }
 
-    public String askCreator(String question) {
+    public String interest(String question) {
         String response = "I'm not sure how to answer that.";
 
         // List of creator-related questions
         String[] creatorKeywords = {
-                "who is your creator",
-                "who created you",
-                "who are you made by",
-                "who is the developer",
-                "who is the owner"
+//                "who is your creator",
+//                "who created you",
+//                "who are you made by",
+//                "who is the developer",
+//                "who is the owner"
         };
 
         // Check if the question contains any of the creator-related keywords
         for (String keyword : creatorKeywords) {
             if (question.toLowerCase().contains(keyword)) {
-                response = "I am developed by Yeamim Hossain Sajid and Md Sifat Bin Jibon. They both are currently studying at United International University.";
+//                response = "I am developed by Yeamim Hossain Sajid and Md Sifat Bin Jibon. They both are currently studying at United International University.";
+                response="";
                 return response;
             }
         }

@@ -19,12 +19,6 @@ import java.util.TreeMap;
 @RequiredArgsConstructor
 public class OpenAPIConfig {
 
-//    @Value("${openapi.local-url}")
-//    private String localUrl;
-//
-//    @Value("${openapi.dev-url}")
-//    private String devUrl;
-
     @Bean
     public OpenApiCustomizer sortSchemasAlphabetically() {
         return openApi -> {
@@ -36,18 +30,7 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI myOpenAPI() {
 
-//        Server localServer = new Server();
-//        localServer.setUrl(localUrl);
-//        localServer.setDescription("Server URL in Local environment");
-//
-//        Server devServer = new Server();
-//        devServer.setUrl(devUrl);
-//        devServer.setDescription("Server URL in Development environment");
-
         Contact contact = new Contact();
-//        contact.setEmail("yeamim.hossain@technonext.com");
-//        contact.setName("TechnoNext Ltd");
-//        contact.setUrl("https://www.technonext.com");
 
         Info info = new Info()
                 .title("Backend Service API")
@@ -58,7 +41,6 @@ public class OpenAPIConfig {
         return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
-//                .servers(List.of(localServer, devServer))
                 .info(info);
     }
 

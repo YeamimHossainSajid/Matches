@@ -1,20 +1,22 @@
 package com.example.Matches.auth.dto.request;
 
-import org.springframework.web.multipart.MultipartFile;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
-public class UserRequestDTO {
-        private String username;
-        private String email;
-        private String password;// Include MultipartFile
+import java.io.Serializable;
 
-        // Getters and Setters
-        public String getUsername() { return username; }
-        public void setUsername(String username) { this.username = username; }
+public record UserRequestDTO(
 
-        public String getEmail() { return email; }
-        public void setEmail(String email) { this.email = email; }
+        @NotEmpty(message = "Username can't be null or empty.")
+        String username,
 
-        public String getPassword() { return password; }
-        public void setPassword(String password) { this.password = password; }
+        @NotEmpty(message = "Email address can't be null or empty.")
+        @Email(message = "Enter a valid email address.")
+        String email,
 
+        @NotEmpty(message = "Password can't be null or empty.")
+        String password
+
+
+) implements Serializable {
 }

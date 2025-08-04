@@ -1,5 +1,4 @@
 package com.example.Matches.auth.repository;
-
 import com.example.Matches.auth.dto.response.CustomRoleResponseDTO;
 import com.example.Matches.auth.model.Role;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,7 @@ import java.util.Set;
 @Repository
 public interface RoleRepo extends JpaRepository<Role, Long > {
 
-    Role findByRoleType(String roleType );
+    Role findByRoleType( String roleType );
 
     Boolean existsByRoleType( String roleType );
 

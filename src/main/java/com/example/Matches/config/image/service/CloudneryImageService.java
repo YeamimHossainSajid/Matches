@@ -1,4 +1,4 @@
-package com.example.Matches.config.image;
+package com.example.Matches.config.image.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

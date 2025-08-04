@@ -1,5 +1,6 @@
 package com.example.Matches.config.security.jwt;
 
+
 import com.example.Matches.config.security.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
-    private JWTService jwtService;
+    private  JWTService jwtService;
     private CustomUserDetailsService customUserDetailsService;
 
     public JWTFilter(JWTService jwtService, CustomUserDetailsService customUserDetailsService) {
@@ -62,15 +63,6 @@ public class JWTFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter( request, response );
     }
-
-
-
-    //We use this method to block a specific URL
-
-//    @Override
-//    protected boolean shouldNotFilter( @NotNull HttpServletRequest request ) throws ServletException {
-//        return true ;
-//    }
 
 }
 

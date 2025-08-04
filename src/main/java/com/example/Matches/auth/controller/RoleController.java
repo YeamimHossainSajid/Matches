@@ -17,7 +17,6 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-
     @PostMapping()
     public ResponseEntity<String> create(RoleRequestDTO requestDto ) {
         roleService.create( requestDto );
@@ -30,7 +29,6 @@ public class RoleController {
                 .ok()
                 .body( roleService.readOne( id ) );
     }
-
 
     @DeleteMapping( "{id}" )
     public ResponseEntity<String> delete( @PathVariable( "id" ) Long id ) {

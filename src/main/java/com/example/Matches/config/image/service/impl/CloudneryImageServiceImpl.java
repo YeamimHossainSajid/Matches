@@ -1,6 +1,8 @@
-package com.example.Matches.config.image;
+package com.example.Matches.config.image.service.impl;
+
 
 import com.cloudinary.Cloudinary;
+import com.example.Matches.config.image.service.CloudneryImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

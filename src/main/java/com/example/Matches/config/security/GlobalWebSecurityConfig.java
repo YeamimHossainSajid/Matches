@@ -45,7 +45,7 @@ public class GlobalWebSecurityConfig {
                 .cors(cors -> cors.configurationSource(new CustomCORSConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS
+                        SessionCreationPolicy.ALWAYS
                 ))
                 .authorizeHttpRequests((httpRequests) -> {
                     httpRequests
@@ -70,10 +70,9 @@ public class GlobalWebSecurityConfig {
                             .permitAll()
                             .anyRequest().
                             permitAll();
-                    //.authenticated();  // after developing the project ,for securing our api
-                    //we need to write authenticate() instade of permitALL()
+                    //.authenticated();
+
                 })
-                //  .authenticationManager(authentication -> authentication.)
                 .authenticationProvider(daoAuthenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

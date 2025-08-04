@@ -98,15 +98,14 @@ public class JWTService {
     }
 
     private SecretKey getSingInKey() {
-        // Ensure your 'secretKey' is at least 256 bits (32 bytes) long
+
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
 
-        // If the key is less than 256 bits (32 bytes), use a default size
         if (keyBytes.length < 32) {
             throw new IllegalArgumentException("The provided secret key is too short. It must be at least 256 bits.");
         }
 
-        return Keys.hmacShaKeyFor(keyBytes); // This creates a valid key for HS256
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
 }

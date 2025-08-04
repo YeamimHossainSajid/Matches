@@ -15,41 +15,34 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table( name = "_user" )
-//@SuperBuilder
-//@SQLRestriction( "is_active = TRUE" )
-//@SQLDelete( sql = "UPDATE _user SET is_active = FALSE WHERE id = ?" )
-//@NamedEntityGraph(
-//        name = "User.roles",
-//        attributeNodes = @NamedAttributeNode("roles")
-//)
+@Table(name = "_user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column( nullable = false ,unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column( nullable = false )
+    @Column(nullable = false)
     private String email;
 
-    @Column( nullable = false )
+    @Column(nullable = false)
     @NotEmpty
     private String password;
 
+
     @ManyToMany(
-            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH },
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             fetch = FetchType.EAGER
     )
     @JoinTable(
             name = "_user_roles",
-            joinColumns = @JoinColumn( name = "user_id" ),
-            inverseJoinColumns = @JoinColumn( name = "roles_id" )
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
-
     private Set<Role> roles = new LinkedHashSet<>();
 
-
 }
+
