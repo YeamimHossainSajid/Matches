@@ -30,4 +30,6 @@ public class ProfileRequestDto implements IDto {
 
     private List<String> skills;
 
+    private List<String> skillsYouWant;
+
 }

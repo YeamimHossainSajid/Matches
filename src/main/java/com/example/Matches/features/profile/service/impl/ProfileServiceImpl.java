@@ -40,6 +40,7 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
         profileResponseDto.setSkills(profile.getSkills());
         profileResponseDto.setWebsiteUrl(profile.getWebsiteUrl());
         profileResponseDto.setImage(profile.getImageUrl());
+        profileResponseDto.setSkillsYouWant(profile.getSkillsYouWant());
         return profileResponseDto ;
     }
 
@@ -76,6 +77,7 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
         profile.setWebsiteUrl(profileRequestDto.getWebsiteUrl());
         profile.setSkills(profileRequestDto.getSkills());
         profile.setImageUrl(heroImageUrl);
+        profile.setSkillsYouWant(profileRequestDto.getSkillsYouWant());
 
         profileRepository.save(profile);
 

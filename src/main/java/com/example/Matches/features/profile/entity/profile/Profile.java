@@ -30,4 +30,9 @@ public class Profile extends BaseEntity {
     @Column(name = "skill")
     private List<String> skills;
 
+    @ElementCollection
+    @CollectionTable(name = "profile_skills_want", joinColumns = @JoinColumn(name = "profile_id"))
+    @Column(name = "skill_you_want")
+    private List<String> skillsYouWant;
+
 }
