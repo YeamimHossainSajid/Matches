@@ -1,5 +1,6 @@
 package com.example.Matches.auth.model;
 
+import com.example.Matches.features.profile.entity.Profile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,6 @@ public class User {
     @NotEmpty
     private String password;
 
-
     @ManyToMany(
             cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             fetch = FetchType.EAGER
@@ -43,6 +43,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
     private Set<Role> roles = new LinkedHashSet<>();
+
+    @OneToOne
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
 
 }
 

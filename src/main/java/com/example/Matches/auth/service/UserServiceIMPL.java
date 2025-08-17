@@ -10,6 +10,8 @@ import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.config.image.service.CloudneryImageService;
 import com.example.Matches.config.mail.EmailService;
 import com.example.Matches.config.mail.OtpService;
+import com.example.Matches.features.profile.entity.Profile;
+import com.example.Matches.features.profile.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class UserServiceIMPL implements UserService {
     private final UserRepo userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepo roleRepository;
+    private final ProfileRepository profileRepository;
 
     @Autowired
     private OtpService otpService;
@@ -35,16 +38,22 @@ public class UserServiceIMPL implements UserService {
 
     private User tempUser;
 
-    public UserServiceIMPL(UserRepo userRepo, PasswordEncoder passwordEncoder, RoleRepo roleRepository) {
+    public UserServiceIMPL(UserRepo userRepo, PasswordEncoder passwordEncoder, RoleRepo roleRepository, ProfileRepository profileRepository) {
         this.userRepository = userRepo;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.profileRepository = profileRepository;
     }
 
     public User ConvertToEntity(User user, UserRequestDTO userRequestDTO) {
         user.setUsername(userRequestDTO.username());
         user.setEmail(userRequestDTO.email());
         user.setPassword(passwordEncoder.encode(userRequestDTO.password()));
+        if (userRequestDTO.profileId() != null) {
+            Profile profile = profileRepository.findById(userRequestDTO.profileId())
+                    .orElseThrow(() -> new RuntimeException("Profile not found with id: " + userRequestDTO.profileId()));
+            user.setProfile(profile);
+        }
         return user;
     }
 

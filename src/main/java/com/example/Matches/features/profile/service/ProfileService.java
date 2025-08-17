@@ -1,6 +1,6 @@
 package com.example.Matches.features.profile.service;
 
-import com.example.Matches.features.profile.entity.profile.Profile;
+import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.request.ProfileRequestDto;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
 import com.example.Matches.generic.service.IService;

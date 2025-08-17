@@ -1,5 +1,6 @@
-package com.example.Matches.features.profile.entity.profile;
+package com.example.Matches.features.profile.entity;
 
+import com.example.Matches.auth.model.User;
 import com.example.Matches.generic.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +35,8 @@ public class Profile extends BaseEntity {
     @CollectionTable(name = "profile_skills_want", joinColumns = @JoinColumn(name = "profile_id"))
     @Column(name = "skill_you_want")
     private List<String> skillsYouWant;
+
+    @OneToOne(mappedBy = "profile")
+    private User user;
 
 }

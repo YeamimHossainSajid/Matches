@@ -1,8 +1,7 @@
 package com.example.Matches.features.profile.controller;
 
-import com.example.Matches.features.profile.entity.profile.Profile;
+import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.request.ProfileRequestDto;
-import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
 import com.example.Matches.features.profile.service.ProfileService;
 import com.example.Matches.generic.controller.AbstractController;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
