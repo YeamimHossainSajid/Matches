@@ -32,4 +32,6 @@ public class ProfileRequestDto implements IDto {
 
     private List<String> skillsYouWant;
 
+    private Long userId;
+
 }

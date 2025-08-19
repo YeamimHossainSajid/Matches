@@ -36,7 +36,8 @@ public class Profile extends BaseEntity {
     @Column(name = "skill_you_want")
     private List<String> skillsYouWant;
 
-    @OneToOne(mappedBy = "profile")
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
 }

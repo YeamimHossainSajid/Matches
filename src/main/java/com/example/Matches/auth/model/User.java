@@ -44,8 +44,7 @@ public class User {
     )
     private Set<Role> roles = new LinkedHashSet<>();
 
-    @OneToOne
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "user")
     private Profile profile;
 
 }

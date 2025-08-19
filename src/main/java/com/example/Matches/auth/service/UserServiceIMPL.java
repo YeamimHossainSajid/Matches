@@ -49,11 +49,6 @@ public class UserServiceIMPL implements UserService {
         user.setUsername(userRequestDTO.username());
         user.setEmail(userRequestDTO.email());
         user.setPassword(passwordEncoder.encode(userRequestDTO.password()));
-        if (userRequestDTO.profileId() != null) {
-            Profile profile = profileRepository.findById(userRequestDTO.profileId())
-                    .orElseThrow(() -> new RuntimeException("Profile not found with id: " + userRequestDTO.profileId()));
-            user.setProfile(profile);
-        }
         return user;
     }
 

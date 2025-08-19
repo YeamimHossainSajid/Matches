@@ -15,9 +15,7 @@ public record UserRequestDTO(
         String email,
 
         @NotEmpty(message = "Password can't be null or empty.")
-        String password,
-
-        Long profileId
+        String password
 
 
 ) implements Serializable {

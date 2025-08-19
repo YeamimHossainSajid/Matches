@@ -1,5 +1,7 @@
 package com.example.Matches.features.profile.service.impl;
 
+import com.example.Matches.auth.model.User;
+import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.config.image.service.CloudneryImageService;
 import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.request.ProfileRequestDto;
@@ -24,6 +26,8 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
     CloudneryImageService cloudneryImageService;
     @Autowired
     ProfileRepository profileRepository;
+    @Autowired
+    UserRepo userRepo;
 
     public ProfileServiceImpl(AbstractRepository<Profile> repository) {
         super(repository);
@@ -69,7 +73,8 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
         String heroImageUrl = (String) heroUploadResult.get("secure_url");
 
         Profile profile = new Profile();
-
+        User user = userRepo.findById(profileRequestDto.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + profileRequestDto.getUserId()));
         profile.setFullName(profileRequestDto.getFullName());
         profile.setBio(profileRequestDto.getBio());
         profile.setLocation(profileRequestDto.getLocation());
@@ -78,6 +83,7 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
         profile.setSkills(profileRequestDto.getSkills());
         profile.setImageUrl(heroImageUrl);
         profile.setSkillsYouWant(profileRequestDto.getSkillsYouWant());
+        profile.setUser(user);
 
         profileRepository.save(profile);
 
