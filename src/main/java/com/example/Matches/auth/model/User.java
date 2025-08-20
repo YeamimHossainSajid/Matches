@@ -1,6 +1,7 @@
 package com.example.Matches.auth.model;
 
 import com.example.Matches.features.profile.entity.Profile;
+import com.example.Matches.features.review.entity.Review;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -46,6 +48,12 @@ public class User {
 
     @OneToOne(mappedBy = "user")
     private Profile profile;
+
+    @OneToMany(mappedBy = "reviewer", cascade = CascadeType.ALL)
+    private List<Review> reviewsGiven;
+
+    @OneToMany(mappedBy = "reviewedUser", cascade = CascadeType.ALL)
+    private List<Review> reviewsReceived;
 
 }
 
