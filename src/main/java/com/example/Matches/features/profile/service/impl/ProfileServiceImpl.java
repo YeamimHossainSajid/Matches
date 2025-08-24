@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -87,5 +88,9 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
 
         profileRepository.save(profile);
 
+    }
+
+    public List<ProfileResponseDto> getMatchingProfiles(Long userId) {
+        return profileRepository.findMatchingProfilesByUserId(userId);
     }
 }
