@@ -24,7 +24,7 @@ public interface ProfileRepository extends AbstractRepository<Profile> {
     )
     AND p.user.id <> :userId
     """)
-    List<ProfileResponseDto> findMatchingProfilesByUserId(@Param("userId") Long userId);
+    List<Profile> findMatchingProfilesByUserId(@Param("userId") Long userId);
 
 
 }

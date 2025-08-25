@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,25 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
     }
 
     public List<ProfileResponseDto> getMatchingProfiles(Long userId) {
-        return profileRepository.findMatchingProfilesByUserId(userId);
+        List<Profile> profiles = profileRepository.findMatchingProfilesByUserId(userId);
+
+        List<ProfileResponseDto> responseDtos = new ArrayList<>();
+
+        for (Profile profile : profiles) {
+            ProfileResponseDto dto = new ProfileResponseDto();
+            dto.setId(profile.getId());
+            dto.setFullName(profile.getFullName());
+            dto.setBio(profile.getBio());
+            dto.setLocation(profile.getLocation());
+            dto.setPhoneNumber(profile.getPhoneNumber());
+            dto.setSkills(profile.getSkills());
+            dto.setWebsiteUrl(profile.getWebsiteUrl());
+            dto.setImage(profile.getImageUrl());
+            dto.setSkillsYouWant(profile.getSkillsYouWant());
+
+            responseDtos.add(dto);
+        }
+
+        return responseDtos;
     }
 }
