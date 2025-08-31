@@ -1,4 +1,10 @@
 package com.example.Matches.features.proposeswap.repository;
 
-public interface ProposeSwapRepository {
+import com.example.Matches.features.proposeswap.entity.ProposeSwap;
+import com.example.Matches.generic.repository.AbstractRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ProposeSwapRepository extends AbstractRepository<ProposeSwap> {
+
 }
