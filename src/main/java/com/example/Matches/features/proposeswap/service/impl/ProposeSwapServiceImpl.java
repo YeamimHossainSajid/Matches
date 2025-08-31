@@ -1,7 +1,11 @@
 package com.example.Matches.features.proposeswap.service.impl;
 
+import com.example.Matches.auth.model.User;
+import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
+import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.request.ProposeSwapRequestDto;
+import com.example.Matches.features.proposeswap.repository.ProposeSwapRepository;
 import com.example.Matches.features.proposeswap.service.ProposeSwapService;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
 import com.example.Matches.generic.payload.response.BaseResponseDto;
@@ -11,32 +15,55 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
-public class ProposeSwapServiceImpl extends AbstractService<ProposeSwap, ProposeSwapRequestDto, GenericSearchDto> implements ProposeSwapService {
+public class ProposeSwapServiceImpl implements ProposeSwapService {
 
-
-    public ProposeSwapServiceImpl(AbstractRepository<ProposeSwap> repository) {
-        super(repository);
+    private final ProposeSwapRepository proposeSwapRepository;
+    private final UserRepo userRepository;
+    public ProposeSwapServiceImpl(ProposeSwapRepository proposeSwapRepository,
+                                  UserRepo userRepository) {
+        this.proposeSwapRepository = proposeSwapRepository;
+        this.userRepository = userRepository;
     }
 
-    @Override
-    protected <T extends BaseResponseDto> T convertToResponseDto(ProposeSwap proposeSwap) {
-        return null;
+    public ProposeSwap sendSwap(Long senderId, Long receiverId,
+                                String yourOffer, String wantInReturn,
+                                String swapDetails, String swapDuration,
+                                String associatedDeposit) {
+
+        User sender = userRepository.findById(senderId)
+                .orElseThrow(() -> new RuntimeException("Sender not found"));
+        User receiver = userRepository.findById(receiverId)
+                .orElseThrow(() -> new RuntimeException("Receiver not found"));
+
+        ProposeSwap swap = new ProposeSwap();
+        swap.setSender(sender);
+        swap.setReceiver(receiver);
+        swap.setYourOffer(yourOffer);
+        swap.setWantInReturn(wantInReturn);
+        swap.setSwapDetails(swapDetails);
+        swap.setSwapDuration(swapDuration);
+        swap.setAssociatedDeposit(associatedDeposit);
+        swap.setStatus(RequestStatus.PENDING);
+
+        return proposeSwapRepository.save(swap);
     }
 
-    @Override
-    protected ProposeSwap convertToEntity(ProposeSwapRequestDto proposeSwapRequestDto) throws IOException {
-        return null;
+    public ProposeSwap respondToSwap(Long swapId, RequestStatus status) {
+        ProposeSwap swap = proposeSwapRepository.findById(swapId)
+                .orElseThrow(() -> new RuntimeException("Swap not found"));
+
+        swap.setStatus(status);
+
+        return proposeSwapRepository.save(swap);
     }
 
-    @Override
-    protected ProposeSwap updateEntity(ProposeSwapRequestDto proposeSwapRequestDto, ProposeSwap entity) throws IOException {
-        return null;
-    }
+    public List<ProposeSwap> getPendingSwaps(Long receiverId) {
+        User receiver = userRepository.findById(receiverId)
+                .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-    @Override
-    protected Specification<ProposeSwap> buildSpecification(GenericSearchDto searchDto) {
-        return null;
+        return proposeSwapRepository.findByReceiverAndStatus(receiver, RequestStatus.PENDING);
     }
 }

@@ -1,8 +1,8 @@
 package com.example.Matches.features.proposeswap.entity;
 
+import com.example.Matches.auth.model.User;
 import com.example.Matches.generic.model.BaseEntity;
-import jakarta.persistence.Access;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +26,15 @@ public class ProposeSwap  extends BaseEntity {
 
     public String associatedDeposit;
 
+    @Enumerated(EnumType.STRING)
+    private RequestStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id", nullable = false)
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id", nullable = false)
+    private User receiver;
 
 }
