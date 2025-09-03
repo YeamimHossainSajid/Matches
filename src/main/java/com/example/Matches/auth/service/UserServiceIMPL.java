@@ -15,6 +15,7 @@ import com.example.Matches.config.mail.OtpService;
 import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
 import com.example.Matches.features.profile.repository.ProfileRepository;
+import com.example.Matches.features.rating.repository.RatingRepository;
 import com.example.Matches.features.review.payload.response.ReviewResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +43,9 @@ public class UserServiceIMPL implements UserService {
     @Autowired
     private CloudneryImageService cloudneryImageService;
 
+    @Autowired
+    private RatingRepository ratingRepository;
+
     private User tempUser;
 
     public UserServiceIMPL(UserRepo userRepo, PasswordEncoder passwordEncoder, RoleRepo roleRepository, ProfileRepository profileRepository) {
@@ -59,7 +63,7 @@ public class UserServiceIMPL implements UserService {
     }
 
     private CustomUserResponseDtoCls convertToResponseDtoCls(User user) {
-        // profile mapping
+
         ProfileResponseDto profileDto = null;
         if (user.getProfile() != null) {
             profileDto = new ProfileResponseDto();
@@ -74,7 +78,7 @@ public class UserServiceIMPL implements UserService {
             profileDto.setSkillsYouWant(user.getProfile().getSkillsYouWant());
         }
 
-        // reviews mapping
+
         List<ReviewResponseDto> reviewsReceived = user.getReviewsReceived().stream()
                 .map(review -> {
                     ReviewResponseDto dto = new ReviewResponseDto();
@@ -92,7 +96,7 @@ public class UserServiceIMPL implements UserService {
                 })
                 .toList();
 
-        // roles mapping
+
         Set<CustomRoleResponseDTO> roles = user.getRoles().stream()
                 .map(role -> new CustomRoleResponseDTO() {
                     @Override
@@ -113,7 +117,9 @@ public class UserServiceIMPL implements UserService {
                 .collect(Collectors.toSet());
 
 
+
         CustomUserResponseDtoCls dto = new CustomUserResponseDtoCls();
+        dto.setRating(ratingRepository.findAverageRatingForUser(user.getId()));
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());

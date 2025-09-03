@@ -21,5 +21,6 @@ public class CustomUserResponseDtoCls {
     private Set<CustomRoleResponseDTO> roles;
     private List<ReviewResponseDto> reviewsReceived;
     private ProfileResponseDto profile;
+    private Double rating;
 }
 
