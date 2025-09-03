@@ -3,6 +3,7 @@ package com.example.Matches.auth.controller;
 import com.example.Matches.auth.dto.request.UserRequestDTO;
 import com.example.Matches.auth.dto.request.UserRoleRequestDTO;
 import com.example.Matches.auth.dto.response.CustomUserResponseDTO;
+import com.example.Matches.auth.dto.response.CustomUserResponseDtoCls;
 import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.auth.service.UserServiceIMPL;
 import org.springframework.http.MediaType;
@@ -62,6 +63,12 @@ public class UserController {
     @GetMapping("search/{username}")
     public ResponseEntity<CustomUserResponseDTO> searchByUserName(@PathVariable("username") String username) {
         return ResponseEntity.ok(userService.searchByUsername(username));
+    }
+
+    @GetMapping("/{id}/details")
+    public ResponseEntity<CustomUserResponseDtoCls> getUserDetails(@PathVariable("id") Long id) {
+        CustomUserResponseDtoCls userDto = userService.getUserInfoById(id);
+        return ResponseEntity.ok(userDto);
     }
 
 }

@@ -55,5 +55,7 @@ public class User {
     @OneToMany(mappedBy = "reviewedUser", cascade = CascadeType.ALL)
     private List<Review> reviewsReceived;
 
+    private Double rating;
+
 }
 

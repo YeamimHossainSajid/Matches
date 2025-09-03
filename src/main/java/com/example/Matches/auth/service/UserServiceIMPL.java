@@ -2,7 +2,9 @@ package com.example.Matches.auth.service;
 
 import com.example.Matches.auth.dto.request.UserRequestDTO;
 import com.example.Matches.auth.dto.request.UserRoleRequestDTO;
+import com.example.Matches.auth.dto.response.CustomRoleResponseDTO;
 import com.example.Matches.auth.dto.response.CustomUserResponseDTO;
+import com.example.Matches.auth.dto.response.CustomUserResponseDtoCls;
 import com.example.Matches.auth.model.Role;
 import com.example.Matches.auth.model.User;
 import com.example.Matches.auth.repository.RoleRepo;
@@ -11,13 +13,17 @@ import com.example.Matches.config.image.service.CloudneryImageService;
 import com.example.Matches.config.mail.EmailService;
 import com.example.Matches.config.mail.OtpService;
 import com.example.Matches.features.profile.entity.Profile;
+import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
 import com.example.Matches.features.profile.repository.ProfileRepository;
+import com.example.Matches.features.review.payload.response.ReviewResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceIMPL implements UserService {
@@ -51,6 +57,74 @@ public class UserServiceIMPL implements UserService {
         user.setPassword(passwordEncoder.encode(userRequestDTO.password()));
         return user;
     }
+
+    private CustomUserResponseDtoCls convertToResponseDtoCls(User user) {
+        // profile mapping
+        ProfileResponseDto profileDto = null;
+        if (user.getProfile() != null) {
+            profileDto = new ProfileResponseDto();
+            profileDto.setId(user.getProfile().getId());
+            profileDto.setFullName(user.getProfile().getFullName());
+            profileDto.setPhoneNumber(user.getProfile().getPhoneNumber());
+            profileDto.setLocation(user.getProfile().getLocation());
+            profileDto.setBio(user.getProfile().getBio());
+            profileDto.setImage(user.getProfile().getImageUrl()); // assuming entity field is imageUrl
+            profileDto.setWebsiteUrl(user.getProfile().getWebsiteUrl());
+            profileDto.setSkills(user.getProfile().getSkills());
+            profileDto.setSkillsYouWant(user.getProfile().getSkillsYouWant());
+        }
+
+        // reviews mapping
+        List<ReviewResponseDto> reviewsReceived = user.getReviewsReceived().stream()
+                .map(review -> {
+                    ReviewResponseDto dto = new ReviewResponseDto();
+                    dto.setId(review.getId());
+                    dto.setReviewText(review.getReview()); // assuming Review entity field = comment
+                    dto.setReviewerId(review.getReviewer().getId());
+                    dto.setReviewerName(review.getReviewer().getUsername());
+                    dto.setReviewerEmail(review.getReviewer().getEmail());
+                    dto.setReviewerProfilePic(
+                            review.getReviewer().getProfile() != null
+                                    ? review.getReviewer().getProfile().getImageUrl()
+                                    : null
+                    );
+                    return dto;
+                })
+                .toList();
+
+        // roles mapping
+        Set<CustomRoleResponseDTO> roles = user.getRoles().stream()
+                .map(role -> new CustomRoleResponseDTO() {
+                    @Override
+                    public Long getId() {
+                        return role.getId();
+                    }
+
+                    @Override
+                    public String getRoleType() {
+                        return role.getRoleType().toString();
+                    }
+
+                    @Override
+                    public Set<UserInfo> getUsers() {
+                        return null;
+                    }
+                })
+                .collect(Collectors.toSet());
+
+
+        CustomUserResponseDtoCls dto = new CustomUserResponseDtoCls();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setEmail(user.getEmail());
+        dto.setRoles(roles);
+        dto.setReviewsReceived(reviewsReceived);
+        dto.setProfile(profileDto);
+
+        return dto;
+    }
+
+
 
     public String create(UserRequestDTO requestDto) {
         if (userRepository.findByUsername(requestDto.username()) != null) {
@@ -119,4 +193,14 @@ public class UserServiceIMPL implements UserService {
     public CustomUserResponseDTO searchByUsername(String username) {
         return userRepository.searchByUsername(username);
     }
+
+
+    public CustomUserResponseDtoCls getUserInfoById(Long userId) {
+        User user = userRepository.findUserWithDetailsById(userId);
+        if (user == null) {
+            throw new RuntimeException("User with id " + userId + " not found");
+        }
+        return convertToResponseDtoCls(user);
+    }
+
 }

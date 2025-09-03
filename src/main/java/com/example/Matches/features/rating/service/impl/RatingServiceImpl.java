@@ -3,13 +3,17 @@ package com.example.Matches.features.rating.service.impl;
 import com.example.Matches.auth.model.User;
 import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.rating.entity.Rating;
-
+import com.example.Matches.features.rating.payload.request.RatingRequestDto;
 import com.example.Matches.features.rating.repository.RatingRepository;
 import com.example.Matches.features.rating.service.RatingService;
-
+import com.example.Matches.generic.payload.request.GenericSearchDto;
+import com.example.Matches.generic.payload.response.BaseResponseDto;
+import com.example.Matches.generic.repository.AbstractRepository;
+import com.example.Matches.generic.service.AbstractService;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-
+import java.io.IOException;
 import java.util.Optional;
 
 @Service

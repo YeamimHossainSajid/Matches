@@ -1,5 +1,7 @@
 package com.example.Matches.auth.dto.response;
 
+import com.example.Matches.features.review.payload.response.ReviewResponseDto;
+
 import java.util.List;
 import java.util.Set;
 
@@ -26,4 +28,6 @@ public interface CustomUserResponseDTO {
         List<String> getSkills();
         List<String> getSkillsYouWant();
     }
+    List<ReviewResponseDto> getReviewsReceived();
+
 }

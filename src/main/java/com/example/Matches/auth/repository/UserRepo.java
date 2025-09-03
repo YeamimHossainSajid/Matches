@@ -40,5 +40,14 @@ public interface UserRepo extends JpaRepository<User, Long > {
             """ )
     CustomUserResponseDTO findUserByUserId(@Param( "id" ) Long id );
 
+    @Query("SELECT u FROM User u " +
+            "LEFT JOIN FETCH u.roles " +
+            "LEFT JOIN FETCH u.profile " +
+            "LEFT JOIN FETCH u.reviewsReceived r " +
+            "LEFT JOIN FETCH r.reviewer rev " +
+            "LEFT JOIN FETCH rev.profile " +
+            "WHERE u.id = :userId")
+    User findUserWithDetailsById(@Param("userId") Long userId);
+
 
 }
