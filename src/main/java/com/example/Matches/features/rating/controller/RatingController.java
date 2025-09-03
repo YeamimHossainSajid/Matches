@@ -24,11 +24,12 @@ public class RatingController extends AbstractController<Rating, RatingRequestDt
 
 
     @PostMapping("/give")
-    public ResponseEntity<Rating> giveRating(
+    public ResponseEntity<String> giveRating(
             @RequestParam Long raterId,
             @RequestParam Long rateeId,
             @RequestParam int rating) {
-        return ResponseEntity.ok(ratingService.giveOrUpdateRating(raterId, rateeId, rating));
+       ratingService.giveOrUpdateRating(raterId, rateeId, rating);
+       return ResponseEntity.ok("Rating gave successfully");
     }
 
     @DeleteMapping("/remove")
