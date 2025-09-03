@@ -3,27 +3,22 @@ package com.example.Matches.features.rating.service.impl;
 import com.example.Matches.auth.model.User;
 import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.rating.entity.Rating;
-import com.example.Matches.features.rating.payload.request.RatingRequestDto;
+
 import com.example.Matches.features.rating.repository.RatingRepository;
 import com.example.Matches.features.rating.service.RatingService;
-import com.example.Matches.generic.payload.request.GenericSearchDto;
-import com.example.Matches.generic.payload.response.BaseResponseDto;
-import com.example.Matches.generic.repository.AbstractRepository;
-import com.example.Matches.generic.service.AbstractService;
-import org.springframework.data.jpa.domain.Specification;
+
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+
 import java.util.Optional;
 
 @Service
-public class RatingServiceImpl extends AbstractService<Rating, RatingRequestDto, GenericSearchDto> implements RatingService {
+public class RatingServiceImpl implements RatingService {
 
     private final RatingRepository ratingRepository;
     private final UserRepo userRepository;
 
-    public RatingServiceImpl(AbstractRepository<Rating> repository, UserRepo userRepository, RatingRepository ratingRepository) {
-        super(repository);
+    public RatingServiceImpl( UserRepo userRepository, RatingRepository ratingRepository) {
         this.userRepository = userRepository;
         this.ratingRepository = ratingRepository;
     }
@@ -66,23 +61,4 @@ public class RatingServiceImpl extends AbstractService<Rating, RatingRequestDto,
         return ratingRepository.findAverageRatingForUser(userId);
     }
 
-    @Override
-    protected <T extends BaseResponseDto> T convertToResponseDto(Rating rating) {
-        return null;
-    }
-
-    @Override
-    protected Rating convertToEntity(RatingRequestDto ratingRequestDto) throws IOException {
-        return null;
-    }
-
-    @Override
-    protected Rating updateEntity(RatingRequestDto ratingRequestDto, Rating entity) throws IOException {
-        return null;
-    }
-
-    @Override
-    protected Specification<Rating> buildSpecification(GenericSearchDto searchDto) {
-        return null;
-    }
 }

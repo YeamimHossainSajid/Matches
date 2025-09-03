@@ -1,24 +1,16 @@
 package com.example.Matches.features.rating.controller;
-
-import com.example.Matches.features.rating.entity.Rating;
-import com.example.Matches.features.rating.payload.request.RatingRequestDto;
 import com.example.Matches.features.rating.service.RatingService;
-import com.example.Matches.generic.controller.AbstractController;
-import com.example.Matches.generic.payload.request.GenericSearchDto;
-import com.example.Matches.generic.service.IService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("Rating")
-public class RatingController extends AbstractController<Rating, RatingRequestDto, GenericSearchDto> {
+public class RatingController {
 
     private final RatingService ratingService;
 
-    public RatingController(IService<Rating, RatingRequestDto, GenericSearchDto> service, RatingService ratingService) {
-
-        super(service);
+    public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
 
