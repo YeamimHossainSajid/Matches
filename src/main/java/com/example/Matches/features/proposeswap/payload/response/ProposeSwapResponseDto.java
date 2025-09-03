@@ -1,15 +1,26 @@
 package com.example.Matches.features.proposeswap.payload.response;
 
+import com.example.Matches.features.proposeswap.entity.RequestStatus;
+import lombok.Data;
+
+@Data
 public class ProposeSwapResponseDto {
 
-    public String yourOffer;
+    private Long id;
 
-    public String wantInReturn;
+    private String yourOffer;
 
-    public String swapDetails;
+    private String wantInReturn;
 
-    public String swapDuration;
+    private String swapDetails;
 
-    public String associatedDeposit;
+    private String swapDuration;
+
+    private String associatedDeposit;
+
+    private RequestStatus status;
+
+    private Long senderId;
+
 
 }

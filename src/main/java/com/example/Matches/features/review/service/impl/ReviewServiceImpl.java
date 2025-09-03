@@ -5,33 +5,24 @@ import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
 import com.example.Matches.features.review.entity.Review;
-import com.example.Matches.features.review.payload.request.ReviewRequestDto;
 import com.example.Matches.features.review.payload.response.ReviewResponseDto;
 import com.example.Matches.features.review.payload.response.UserProfileWithReviewsDto;
 import com.example.Matches.features.review.repository.ReviewRepository;
 import com.example.Matches.features.review.service.ReviewService;
-import com.example.Matches.generic.payload.request.GenericSearchDto;
-import com.example.Matches.generic.payload.response.BaseResponseDto;
-import com.example.Matches.generic.repository.AbstractRepository;
-import com.example.Matches.generic.service.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.util.List;
 
 
 @Service
-public class ReviewServiceImpl extends AbstractService<Review, ReviewRequestDto, GenericSearchDto> implements ReviewService {
+public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private final ReviewRepository reviewRepository;
     @Autowired
     private final UserRepo userRepository;
 
-    public ReviewServiceImpl(AbstractRepository<Review> repository, ReviewRepository reviewRepository, UserRepo userRepository) {
-        super(repository);
+    public ReviewServiceImpl( ReviewRepository reviewRepository, UserRepo userRepository) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
     }
@@ -51,25 +42,7 @@ public class ReviewServiceImpl extends AbstractService<Review, ReviewRequestDto,
         return reviewRepository.save(review);
     }
 
-    @Override
-    protected <T extends BaseResponseDto> T convertToResponseDto(Review review) {
-        return null;
-    }
 
-    @Override
-    protected Review convertToEntity(ReviewRequestDto reviewRequestDto) throws IOException {
-        return null;
-    }
-
-    @Override
-    protected Review updateEntity(ReviewRequestDto reviewRequestDto, Review entity) throws IOException {
-        return null;
-    }
-
-    @Override
-    protected Specification<Review> buildSpecification(GenericSearchDto searchDto) {
-        return null;
-    }
 
 
 //    public ProfileResponseDto getProfileWithReviews(Long userId) {

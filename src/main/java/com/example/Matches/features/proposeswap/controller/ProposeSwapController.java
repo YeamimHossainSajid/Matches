@@ -3,6 +3,7 @@ package com.example.Matches.features.proposeswap.controller;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.request.ProposeSwapRequestDto;
+import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
 import com.example.Matches.features.proposeswap.service.ProposeSwapService;
 import com.example.Matches.generic.controller.AbstractController;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
@@ -22,7 +23,7 @@ public class ProposeSwapController {
      this.proposeSwapService = proposeSwapService;
     }
     @PostMapping("/send")
-    public ResponseEntity<ProposeSwap> sendSwap(
+    public ResponseEntity<String> sendSwap(
             @RequestParam Long senderId,
             @RequestParam Long receiverId,
             @RequestParam String yourOffer,
@@ -31,22 +32,24 @@ public class ProposeSwapController {
             @RequestParam String swapDuration,
             @RequestParam String associatedDeposit) {
 
-        return ResponseEntity.ok(
                 proposeSwapService.sendSwap(senderId, receiverId, yourOffer, wantInReturn,
-                        swapDetails, swapDuration, associatedDeposit)
-        );
+                        swapDetails, swapDuration, associatedDeposit);
+
+                return ResponseEntity.ok("success");
     }
 
     @PostMapping("/{swapId}/respond")
-    public ResponseEntity<ProposeSwap> respondToSwap(
+    public ResponseEntity<String> respondToSwap(
             @PathVariable Long swapId,
             @RequestParam RequestStatus status) {
 
-        return ResponseEntity.ok(proposeSwapService.respondToSwap(swapId, status));
+   proposeSwapService.respondToSwap(swapId, status);
+   return ResponseEntity.ok("success");
+
     }
 
     @GetMapping("/pending/{receiverId}")
-    public ResponseEntity<List<ProposeSwap>> getPendingSwaps(@PathVariable Long receiverId) {
+    public ResponseEntity<List<ProposeSwapResponseDto>> getPendingSwaps(@PathVariable Long receiverId) {
         return ResponseEntity.ok(proposeSwapService.getPendingSwaps(receiverId));
     }
 }

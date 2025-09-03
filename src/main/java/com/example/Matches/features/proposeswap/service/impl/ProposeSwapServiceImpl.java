@@ -5,6 +5,7 @@ import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.request.ProposeSwapRequestDto;
+import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
 import com.example.Matches.features.proposeswap.repository.ProposeSwapRepository;
 import com.example.Matches.features.proposeswap.service.ProposeSwapService;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
@@ -27,6 +28,21 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
         this.proposeSwapRepository = proposeSwapRepository;
         this.userRepository = userRepository;
     }
+
+    private ProposeSwapResponseDto convertToResponseDto(ProposeSwap swap) {
+        ProposeSwapResponseDto dto = new ProposeSwapResponseDto();
+        dto.setId(swap.getId());
+        dto.setYourOffer(swap.getYourOffer());
+        dto.setWantInReturn(swap.getWantInReturn());
+        dto.setSwapDetails(swap.getSwapDetails());
+        dto.setSwapDuration(swap.getSwapDuration());
+        dto.setAssociatedDeposit(swap.getAssociatedDeposit());
+        dto.setStatus(swap.getStatus());
+        dto.setSenderId(swap.getSender() != null ? swap.getSender().getId() : null);
+        return dto;
+    }
+
+
 
     public ProposeSwap sendSwap(Long senderId, Long receiverId,
                                 String yourOffer, String wantInReturn,
@@ -60,10 +76,15 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
         return proposeSwapRepository.save(swap);
     }
 
-    public List<ProposeSwap> getPendingSwaps(Long receiverId) {
+    public List<ProposeSwapResponseDto> getPendingSwaps(Long receiverId) {
         User receiver = userRepository.findById(receiverId)
                 .orElseThrow(() -> new RuntimeException("Receiver not found"));
 
-        return proposeSwapRepository.findByReceiverAndStatus(receiver, RequestStatus.PENDING);
+        List<ProposeSwap> swaps = proposeSwapRepository.findByReceiverAndStatus(receiver, RequestStatus.PENDING);
+
+        return swaps.stream()
+                .map(this::convertToResponseDto)
+                .toList();
     }
+
 }

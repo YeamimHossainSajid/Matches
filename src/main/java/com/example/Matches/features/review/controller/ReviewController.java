@@ -1,21 +1,17 @@
 package com.example.Matches.features.review.controller;
 
-import com.example.Matches.features.review.entity.Review;
-import com.example.Matches.features.review.payload.request.ReviewRequestDto;
 import com.example.Matches.features.review.payload.response.UserProfileWithReviewsDto;
 import com.example.Matches.features.review.service.ReviewService;
-import com.example.Matches.generic.controller.AbstractController;
-import com.example.Matches.generic.payload.request.GenericSearchDto;
-import com.example.Matches.generic.service.IService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("review")
-public class ReviewController extends AbstractController<Review, ReviewRequestDto, GenericSearchDto> {
-     public ReviewService reviewService;
-    public ReviewController(IService<Review, ReviewRequestDto, GenericSearchDto> service,ReviewService reviewService) {
-        super(service);
+public class ReviewController{
+
+    public ReviewService reviewService;
+
+    public ReviewController(ReviewService reviewService) {
         this.reviewService=reviewService;
 
     }

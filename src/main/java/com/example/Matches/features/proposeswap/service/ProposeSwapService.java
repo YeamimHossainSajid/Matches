@@ -3,6 +3,7 @@ package com.example.Matches.features.proposeswap.service;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.request.ProposeSwapRequestDto;
+import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
 import com.example.Matches.generic.service.AbstractService;
 import com.example.Matches.generic.service.IService;
@@ -16,6 +17,6 @@ public interface ProposeSwapService  {
                                 String associatedDeposit);
     public ProposeSwap respondToSwap(Long swapId, RequestStatus status);
 
-    public List<ProposeSwap> getPendingSwaps(Long receiverId);
+    public List<ProposeSwapResponseDto> getPendingSwaps(Long receiverId);
 
 }
