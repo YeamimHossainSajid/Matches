@@ -15,8 +15,8 @@ import com.example.Matches.config.mail.OtpService;
 import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
 import com.example.Matches.features.profile.repository.ProfileRepository;
-import com.example.Matches.features.rating.repository.RatingRepository;
 import com.example.Matches.features.review.payload.response.ReviewResponseDto;
+import com.example.Matches.features.review.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class UserServiceIMPL implements UserService {
     private CloudneryImageService cloudneryImageService;
 
     @Autowired
-    private RatingRepository ratingRepository;
+    private ReviewRepository reviewRepository;
 
     private User tempUser;
 
@@ -119,7 +119,7 @@ public class UserServiceIMPL implements UserService {
 
 
         CustomUserResponseDtoCls dto = new CustomUserResponseDtoCls();
-        dto.setRating(ratingRepository.findAverageRatingForUser(user.getId()));
+        dto.setRating(reviewRepository.findAverageRatingForUser(user.getId()));
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setEmail(user.getEmail());
