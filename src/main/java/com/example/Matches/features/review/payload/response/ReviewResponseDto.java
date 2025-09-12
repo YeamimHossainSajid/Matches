@@ -12,5 +12,6 @@ public class ReviewResponseDto {
     private String reviewerName;
     private String reviewerEmail;
     private String reviewerProfilePic;
+    private Double rating;
 }
 

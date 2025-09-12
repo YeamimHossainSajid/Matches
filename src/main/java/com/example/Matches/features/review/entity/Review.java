@@ -28,4 +28,6 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "reviewed_user_id")
     private User reviewedUser;
 
+    private int rating;
+
 }

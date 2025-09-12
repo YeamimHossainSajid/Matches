@@ -1,5 +1,6 @@
 package com.example.Matches.features.review.controller;
 
+import com.example.Matches.features.review.payload.request.ReviewRequestDto;
 import com.example.Matches.features.review.payload.response.UserProfileWithReviewsDto;
 import com.example.Matches.features.review.service.ReviewService;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class ReviewController{
     }
 
     @PostMapping("createReview")
-    public ResponseEntity<String>createReview(Long reviewerId, Long reviewedUserId, String reviewText) {
-       reviewService.addReview(reviewerId, reviewedUserId, reviewText);
+    public ResponseEntity<String>createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
+       reviewService.addReview(reviewRequestDto);
        return ResponseEntity.ok("Review created");
     }
 

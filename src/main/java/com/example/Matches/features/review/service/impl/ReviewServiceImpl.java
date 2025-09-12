@@ -5,6 +5,7 @@ import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
 import com.example.Matches.features.review.entity.Review;
+import com.example.Matches.features.review.payload.request.ReviewRequestDto;
 import com.example.Matches.features.review.payload.response.ReviewResponseDto;
 import com.example.Matches.features.review.payload.response.UserProfileWithReviewsDto;
 import com.example.Matches.features.review.repository.ReviewRepository;
@@ -28,16 +29,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
 
-    public Review addReview(Long reviewerId, Long reviewedUserId, String reviewText) {
-        User reviewer = userRepository.findById(reviewerId)
+    public Review addReview(ReviewRequestDto reviewRequestDto) {
+        User reviewer = userRepository.findById(reviewRequestDto.getReviewerId())
                 .orElseThrow(() -> new RuntimeException("Reviewer not found"));
-        User reviewedUser = userRepository.findById(reviewedUserId)
+        User reviewedUser = userRepository.findById(reviewRequestDto.getReviewedUserId())
                 .orElseThrow(() -> new RuntimeException("Reviewed user not found"));
 
         Review review = new Review();
-        review.setReview(reviewText);
+        review.setReview(reviewRequestDto.getReviewText());
         review.setReviewer(reviewer);
         review.setReviewedUser(reviewedUser);
+        review.setRating(reviewRequestDto.getRating());
 
         return reviewRepository.save(review);
     }
@@ -119,6 +121,7 @@ public class ReviewServiceImpl implements ReviewService {
                     dto.setReviewerId(r.getReviewer().getId());
                     dto.setReviewerName(r.getReviewer().getUsername());
                     dto.setReviewerEmail(r.getReviewer().getEmail());
+                    dto.setRating(reviewRepository.findAverageRatingForUser(userId));
                     dto.setReviewerProfilePic(r.getReviewer().getProfile().getImageUrl());
                     return dto;
                 })
