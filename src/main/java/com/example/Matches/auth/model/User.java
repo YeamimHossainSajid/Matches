@@ -57,5 +57,9 @@ public class User {
 
     private Double rating;
 
+    private Boolean isAvailable;
+
+    private Boolean isVerified;
+
 }
 

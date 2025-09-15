@@ -16,7 +16,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProposeSwapServiceImpl implements ProposeSwapService {
@@ -86,5 +88,28 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
                 .map(this::convertToResponseDto)
                 .toList();
     }
+
+    @Override
+    public List<ProposeSwap> findByUserAndStatus( List<RequestStatus> statuses,
+                                                    Long userId) {
+        User user=userRepository.findById(userId).get();
+        return proposeSwapRepository.findByUserAndStatuses(user, statuses);
+    }
+
+    @Override
+    public Map<String, Long> countSwapsByUser(Long userId) {
+        User user=userRepository.findById(userId).get();
+        List<Object[]> results = proposeSwapRepository.countByUserGroupByStatus(user);
+
+        Map<String, Long> counts = new HashMap<>();
+        for (Object[] row : results) {
+            String status = row[0].toString();   // RequestStatus enum -> String
+            Long count = (Long) row[1];
+            counts.put(status, count);
+        }
+
+        return counts;
+    }
+
 
 }
