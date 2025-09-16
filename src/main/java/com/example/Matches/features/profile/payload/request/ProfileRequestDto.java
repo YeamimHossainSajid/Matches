@@ -28,9 +28,9 @@ public class ProfileRequestDto implements IDto {
 
     private String websiteUrl;
 
-    private List<String> skills;
+    private String skills;
 
-    private List<String> skillsYouWant;
+    private String skillsYouWant;
 
     private Long userId;
 

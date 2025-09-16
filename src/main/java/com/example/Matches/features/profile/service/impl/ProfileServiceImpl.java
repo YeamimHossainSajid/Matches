@@ -18,8 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestDto, GenericSearchDto> implements ProfileService {
@@ -82,9 +84,9 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
         profile.setLocation(profileRequestDto.getLocation());
         profile.setPhoneNumber(profileRequestDto.getPhoneNumber());
         profile.setWebsiteUrl(profileRequestDto.getWebsiteUrl());
-        profile.setSkills(profileRequestDto.getSkills());
+        profile.setSkills(convertSkillsToList(profileRequestDto.getSkills()));
         profile.setImageUrl(heroImageUrl);
-        profile.setSkillsYouWant(profileRequestDto.getSkillsYouWant());
+        profile.setSkillsYouWant(convertSkillsToList(profileRequestDto.getSkillsYouWant()));
         profile.setUser(user);
 
         profileRepository.save(profile);
@@ -112,5 +114,15 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
         }
 
         return responseDtos;
+    }
+
+    private List<String> convertSkillsToList(String skills) {
+        if (skills == null || skills.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return Arrays.stream(skills.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toList());
     }
 }
