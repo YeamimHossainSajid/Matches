@@ -28,7 +28,7 @@ public class ProfileController extends AbstractController<Profile, ProfileReques
     }
 
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> createProfile(@RequestBody ProfileRequestDto profileRequestDto) throws IOException {
+    public ResponseEntity<String> createProfile(@ModelAttribute ProfileRequestDto profileRequestDto) throws IOException {
 
         profileService.createV2(profileRequestDto,profileRequestDto.getImage());
 
