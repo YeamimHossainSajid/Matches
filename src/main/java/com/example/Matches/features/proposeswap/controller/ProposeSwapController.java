@@ -1,11 +1,14 @@
 package com.example.Matches.features.proposeswap.controller;
 
+import com.example.Matches.auth.model.User;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
 import com.example.Matches.features.proposeswap.service.ProposeSwapService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -49,16 +52,27 @@ public class ProposeSwapController {
         return ResponseEntity.ok(proposeSwapService.getPendingSwaps(receiverId));
     }
 
-    @GetMapping("/by-user/{userId}")
-    public List<ProposeSwap> getSwapsByUserAndStatus(
-            @PathVariable Long userId,
-            @RequestParam List<RequestStatus> statuses
-    ) {
-        return proposeSwapService.findByUserAndStatus(statuses, userId);
-    }
+//    @GetMapping("/by-user/{userId}")
+//    public List<ProposeSwap> getSwapsByUserAndStatus(
+//            @PathVariable Long userId,
+//            @RequestParam List<RequestStatus> statuses
+//    ) {
+//        return proposeSwapService.findByUserAndStatus(statuses, userId);
+//    }
 
     @GetMapping("/count/{userId}")
     public Map<String, Long> getSwapCountsByUser(@PathVariable Long userId) {
         return proposeSwapService.countSwapsByUser(userId);
+    }
+    @GetMapping("/grouped")
+    public ResponseEntity<Map<RequestStatus, List<ProposeSwapResponseDto>>> getSwapsGroupedByStatus(
+            @RequestParam Long userId,
+            @RequestParam List<RequestStatus> statuses
+    ){
+
+        Map<RequestStatus, List<ProposeSwapResponseDto>> result =
+                proposeSwapService.getSwapsGroupedByStatus(userId, statuses);
+
+        return ResponseEntity.ok(result);
     }
 }

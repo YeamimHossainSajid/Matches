@@ -21,10 +21,12 @@ public interface ProposeSwapService  {
 
     public List<ProposeSwapResponseDto> getPendingSwaps(Long receiverId);
 
-    List<ProposeSwap> findByUserAndStatus(
-            List<RequestStatus> statuses,
-            Long userId
-    );
+//    List<ProposeSwap> findByUserAndStatus(
+//            List<RequestStatus> statuses,
+//            Long userId
+//    );
     Map<String, Long> countSwapsByUser(Long userId);
+
+    public Map<RequestStatus, List<ProposeSwapResponseDto>> getSwapsGroupedByStatus(Long  userId, List<RequestStatus> statuses);
 
 }

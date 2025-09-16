@@ -22,5 +22,6 @@ public class CustomUserResponseDtoCls {
     private List<ReviewResponseDto> reviewsReceived;
     private ProfileResponseDto profile;
     private Double rating;
+    private Boolean isActive;
 }
 

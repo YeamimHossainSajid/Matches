@@ -3,6 +3,7 @@ package com.example.Matches.features.proposeswap.repository;
 import com.example.Matches.auth.model.User;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
+import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
 import com.example.Matches.generic.repository.AbstractRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

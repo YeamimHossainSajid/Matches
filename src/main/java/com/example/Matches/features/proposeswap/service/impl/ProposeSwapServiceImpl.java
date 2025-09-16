@@ -13,12 +13,15 @@ import com.example.Matches.generic.payload.response.BaseResponseDto;
 import com.example.Matches.generic.repository.AbstractRepository;
 import com.example.Matches.generic.service.AbstractService;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ProposeSwapServiceImpl implements ProposeSwapService {
@@ -89,12 +92,12 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
                 .toList();
     }
 
-    @Override
-    public List<ProposeSwap> findByUserAndStatus( List<RequestStatus> statuses,
-                                                    Long userId) {
-        User user=userRepository.findById(userId).get();
-        return proposeSwapRepository.findByUserAndStatuses(user, statuses);
-    }
+//    @Override
+//    public List<ProposeSwap> findByUserAndStatus( List<RequestStatus> statuses,
+//                                                    Long userId) {
+//        User user=userRepository.findById(userId).get();
+//        return proposeSwapRepository.findByUserAndStatuses(user, statuses);
+//    }
 
     @Override
     public Map<String, Long> countSwapsByUser(Long userId) {
@@ -103,13 +106,29 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
 
         Map<String, Long> counts = new HashMap<>();
         for (Object[] row : results) {
-            String status = row[0].toString();   // RequestStatus enum -> String
+            String status = row[0].toString();
             Long count = (Long) row[1];
             counts.put(status, count);
         }
 
         return counts;
     }
+
+    @Override
+    public Map<RequestStatus, List<ProposeSwapResponseDto>> getSwapsGroupedByStatus(Long userId, List<RequestStatus> statuses) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        List<ProposeSwap> swaps = proposeSwapRepository.findByUserAndStatuses(user, statuses);
+
+        List<ProposeSwapResponseDto> dtoList = swaps.stream()
+                .map(this::convertToResponseDto)
+                .toList();
+
+        return dtoList.stream()
+                .collect(Collectors.groupingBy(ProposeSwapResponseDto::getStatus));
+    }
+
 
 
 }
