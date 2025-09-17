@@ -6,6 +6,7 @@ import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.request.ProposeSwapRequestDto;
 import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
+import com.example.Matches.features.proposeswap.payload.response.SwapUserResponseDto;
 import com.example.Matches.features.proposeswap.repository.ProposeSwapRepository;
 import com.example.Matches.features.proposeswap.service.ProposeSwapService;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
@@ -43,7 +44,16 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
         dto.setSwapDuration(swap.getSwapDuration());
         dto.setAssociatedDeposit(swap.getAssociatedDeposit());
         dto.setStatus(swap.getStatus());
-        dto.setSenderId(swap.getSender() != null ? swap.getSender().getId() : null);
+
+
+        if (swap.getSender() != null) {
+            SwapUserResponseDto senderDto = new SwapUserResponseDto();
+            senderDto.setId(swap.getSender().getId());
+            senderDto.setUsername(swap.getSender().getUsername());
+            senderDto.setEmail(swap.getSender().getEmail());
+            dto.setSender(senderDto);
+        }
+
         return dto;
     }
 

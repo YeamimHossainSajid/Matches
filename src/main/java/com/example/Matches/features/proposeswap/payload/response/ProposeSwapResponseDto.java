@@ -1,5 +1,6 @@
 package com.example.Matches.features.proposeswap.payload.response;
 
+import com.example.Matches.auth.model.User;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import lombok.Data;
 
@@ -20,7 +21,7 @@ public class ProposeSwapResponseDto {
 
     private RequestStatus status;
 
-    private Long senderId;
+    private SwapUserResponseDto sender;
 
 
 }
