@@ -125,4 +125,8 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
     }
+
+    public List<Profile> findMatchingProfilesOrderBy(Long userId) {
+        return profileRepository.findMatchingProfilesByUserIdOrderByAverageRating(userId);
+    }
 }

@@ -41,4 +41,10 @@ public class ProfileController extends AbstractController<Profile, ProfileReques
         List<ProfileResponseDto> matchingProfiles = profileService.getMatchingProfiles(userId);
         return ResponseEntity.ok(matchingProfiles);
     }
+
+    @GetMapping("/match/orderBy/{userId}")
+    public ResponseEntity<List<Profile>> findMatchingProfiles(@PathVariable Long userId) {
+        List<Profile> profiles = profileService.findMatchingProfilesOrderBy(userId);
+        return ResponseEntity.ok(profiles);
+    }
 }
