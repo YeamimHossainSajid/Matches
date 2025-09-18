@@ -46,5 +46,19 @@ public interface ProfileRepository extends AbstractRepository<Profile> {
     List<Profile> findMatchingProfilesByUserIdOrderByAverageRating(@Param("userId") Long userId);
 
 
+    @Query("""
+    SELECT p
+    FROM Profile p
+    LEFT JOIN p.user.reviewsReceived rr
+    WHERE p.user.id <> :userId
+    GROUP BY p
+    ORDER BY 
+      CASE WHEN AVG(rr.rating) IS NULL THEN 1 ELSE 0 END,
+      AVG(rr.rating) DESC
+    """)
+    List<Profile> findAllProfilesExceptUserOrderByAverageRating(@Param("userId") Long userId);
+
+
+
 
 }

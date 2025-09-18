@@ -4,21 +4,14 @@ import com.example.Matches.auth.model.User;
 import com.example.Matches.auth.repository.UserRepo;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
-import com.example.Matches.features.proposeswap.payload.request.ProposeSwapRequestDto;
 import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
 import com.example.Matches.features.proposeswap.payload.response.SwapUserResponseDto;
 import com.example.Matches.features.proposeswap.repository.ProposeSwapRepository;
 import com.example.Matches.features.proposeswap.service.ProposeSwapService;
-import com.example.Matches.generic.payload.request.GenericSearchDto;
-import com.example.Matches.generic.payload.response.BaseResponseDto;
-import com.example.Matches.generic.repository.AbstractRepository;
-import com.example.Matches.generic.service.AbstractService;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,7 +131,5 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
         return dtoList.stream()
                 .collect(Collectors.groupingBy(ProposeSwapResponseDto::getStatus));
     }
-
-
 
 }

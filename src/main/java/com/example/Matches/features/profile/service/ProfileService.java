@@ -18,4 +18,8 @@ public interface ProfileService extends IService<Profile, ProfileRequestDto,Gene
 
     public List<ProfileResponseDto> findMatchingProfilesOrderBy(Long userId);
 
+    public List<ProfileResponseDto> getAllProfilesExceptUserOrderByAverageRating(Long userId);
+
+
+
 }

@@ -35,4 +35,6 @@ public class ProfileResponseDto extends BaseResponseDto {
 
     private List<String> skillsYouWant;
 
+    ProfileUserResponseDto user;
+
 }

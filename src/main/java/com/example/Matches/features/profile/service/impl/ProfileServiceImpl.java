@@ -6,8 +6,10 @@ import com.example.Matches.config.image.service.CloudneryImageService;
 import com.example.Matches.features.profile.entity.Profile;
 import com.example.Matches.features.profile.payload.request.ProfileRequestDto;
 import com.example.Matches.features.profile.payload.response.ProfileResponseDto;
+import com.example.Matches.features.profile.payload.response.ProfileUserResponseDto;
 import com.example.Matches.features.profile.repository.ProfileRepository;
 import com.example.Matches.features.profile.service.ProfileService;
+import com.example.Matches.features.proposeswap.payload.response.SwapUserResponseDto;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
 import com.example.Matches.generic.repository.AbstractRepository;
 import com.example.Matches.generic.service.AbstractService;
@@ -109,6 +111,13 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
             dto.setWebsiteUrl(profile.getWebsiteUrl());
             dto.setImage(profile.getImageUrl());
             dto.setSkillsYouWant(profile.getSkillsYouWant());
+            if (profile.getUser() != null) {
+                ProfileUserResponseDto profileDto = new ProfileUserResponseDto();
+                profileDto.setId(profile.getUser().getId());
+                profileDto.setUsername(profile.getUser().getUsername());
+                profileDto.setEmail(profile.getUser().getEmail());
+                dto.setUser(profileDto);
+            }
 
             responseDtos.add(dto);
         }
@@ -143,6 +152,46 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
             dto.setWebsiteUrl(profile.getWebsiteUrl());
             dto.setImage(profile.getImageUrl());
             dto.setSkillsYouWant(profile.getSkillsYouWant());
+            if (profile.getUser() != null) {
+                ProfileUserResponseDto profileDto = new ProfileUserResponseDto();
+                profileDto.setId(profile.getUser().getId());
+                profileDto.setUsername(profile.getUser().getUsername());
+                profileDto.setEmail(profile.getUser().getEmail());
+                dto.setUser(profileDto);
+            }
+
+            responseDtos.add(dto);
+        }
+
+        return responseDtos;
+    }
+
+
+    public List<ProfileResponseDto> getAllProfilesExceptUserOrderByAverageRating(Long userId) {
+
+
+        List<Profile> profiles = profileRepository.findAllProfilesExceptUserOrderByAverageRating(userId);
+
+        List<ProfileResponseDto> responseDtos = new ArrayList<>();
+
+        for (Profile profile : profiles) {
+            ProfileResponseDto dto = new ProfileResponseDto();
+            dto.setId(profile.getId());
+            dto.setFullName(profile.getFullName());
+            dto.setBio(profile.getBio());
+            dto.setLocation(profile.getLocation());
+            dto.setPhoneNumber(profile.getPhoneNumber());
+            dto.setSkills(profile.getSkills());
+            dto.setWebsiteUrl(profile.getWebsiteUrl());
+            dto.setImage(profile.getImageUrl());
+            dto.setSkillsYouWant(profile.getSkillsYouWant());
+            if (profile.getUser() != null) {
+                ProfileUserResponseDto profileDto = new ProfileUserResponseDto();
+                profileDto.setId(profile.getUser().getId());
+                profileDto.setUsername(profile.getUser().getUsername());
+                profileDto.setEmail(profile.getUser().getEmail());
+                dto.setUser(profileDto);
+            }
 
             responseDtos.add(dto);
         }
