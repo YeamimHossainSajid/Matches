@@ -10,6 +10,8 @@ import com.example.Matches.features.profile.payload.response.ProfileUserResponse
 import com.example.Matches.features.profile.repository.ProfileRepository;
 import com.example.Matches.features.profile.service.ProfileService;
 import com.example.Matches.features.proposeswap.payload.response.SwapUserResponseDto;
+import com.example.Matches.features.review.repository.ReviewRepository;
+import com.example.Matches.features.review.service.ReviewService;
 import com.example.Matches.generic.payload.request.GenericSearchDto;
 import com.example.Matches.generic.repository.AbstractRepository;
 import com.example.Matches.generic.service.AbstractService;
@@ -34,6 +36,9 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
     ProfileRepository profileRepository;
     @Autowired
     UserRepo userRepo;
+
+    @Autowired
+    ReviewRepository reviewRepository;
 
     public ProfileServiceImpl(AbstractRepository<Profile> repository) {
         super(repository);
@@ -116,6 +121,8 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
                 profileDto.setId(profile.getUser().getId());
                 profileDto.setUsername(profile.getUser().getUsername());
                 profileDto.setEmail(profile.getUser().getEmail());
+                profileDto.setRating(reviewRepository.findAverageRatingForUser(profile.getUser().getId()));
+                profileDto.setIsActive(profile.getUser().getIsAvailable());
                 dto.setUser(profileDto);
             }
 
@@ -157,6 +164,8 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
                 profileDto.setId(profile.getUser().getId());
                 profileDto.setUsername(profile.getUser().getUsername());
                 profileDto.setEmail(profile.getUser().getEmail());
+                profileDto.setRating(reviewRepository.findAverageRatingForUser(profile.getUser().getId()));
+                profileDto.setIsActive(profile.getUser().getIsAvailable());
                 dto.setUser(profileDto);
             }
 
@@ -190,6 +199,8 @@ public class ProfileServiceImpl extends AbstractService<Profile, ProfileRequestD
                 profileDto.setId(profile.getUser().getId());
                 profileDto.setUsername(profile.getUser().getUsername());
                 profileDto.setEmail(profile.getUser().getEmail());
+                profileDto.setRating(reviewRepository.findAverageRatingForUser(profile.getUser().getId()));
+                profileDto.setIsActive(profile.getUser().getIsAvailable());
                 dto.setUser(profileDto);
             }
 
