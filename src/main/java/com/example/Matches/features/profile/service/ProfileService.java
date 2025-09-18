@@ -16,6 +16,6 @@ public interface ProfileService extends IService<Profile, ProfileRequestDto,Gene
 
     public List<ProfileResponseDto> getMatchingProfiles(Long userId);
 
-    public List<Profile> findMatchingProfilesOrderBy(Long userId);
+    public List<ProfileResponseDto> findMatchingProfilesOrderBy(Long userId);
 
 }
