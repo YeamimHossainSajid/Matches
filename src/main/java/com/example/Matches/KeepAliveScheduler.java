@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class KeepAliveScheduler {
     private static final Logger logger = LoggerFactory.getLogger(KeepAliveScheduler.class);
-    private static final String HEALTHCHECK_URL = "https://matches-3kf5.onrender.com/healthcheck";
+    private static final String HEALTHCHECK_URL = "https://matches-wp7z.onrender.com/healthcheck";
     @Scheduled(fixedRate = 30000) // Every 5 minutes
     public void pingBackend() {
         try {
