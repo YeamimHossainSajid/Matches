@@ -16,10 +16,13 @@ import lombok.Setter;
 @Setter
 public class ProposeSwap  extends BaseEntity {
 
+   @Column(length = 1000)
+   private String swapTitle;
+   @Column(length = 1000)
     public String yourOffer;
-
+   @Column(length = 1000)
     public String wantInReturn;
-
+    @Column(length = 1000)
     public String swapDetails;
 
     public String swapDuration;

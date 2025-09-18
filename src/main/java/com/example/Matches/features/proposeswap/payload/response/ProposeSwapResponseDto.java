@@ -21,6 +21,8 @@ public class ProposeSwapResponseDto {
 
     private RequestStatus status;
 
+    private String swapTitle;
+
     private SwapUserResponseDto sender;
 
 

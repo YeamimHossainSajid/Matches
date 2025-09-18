@@ -2,6 +2,7 @@ package com.example.Matches.features.proposeswap.service.impl;
 
 import com.example.Matches.auth.model.User;
 import com.example.Matches.auth.repository.UserRepo;
+import com.example.Matches.config.ai.service.AiService;
 import com.example.Matches.features.proposeswap.entity.ProposeSwap;
 import com.example.Matches.features.proposeswap.entity.RequestStatus;
 import com.example.Matches.features.proposeswap.payload.response.ProposeSwapResponseDto;
@@ -22,10 +23,14 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
 
     private final ProposeSwapRepository proposeSwapRepository;
     private final UserRepo userRepository;
+    private AiService aiService;
+
     public ProposeSwapServiceImpl(ProposeSwapRepository proposeSwapRepository,
-                                  UserRepo userRepository) {
+                                  UserRepo userRepository,
+                                  AiService aiService) {
         this.proposeSwapRepository = proposeSwapRepository;
         this.userRepository = userRepository;
+        this.aiService = aiService;
     }
 
     private ProposeSwapResponseDto convertToResponseDto(ProposeSwap swap) {
@@ -37,6 +42,7 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
         dto.setSwapDuration(swap.getSwapDuration());
         dto.setAssociatedDeposit(swap.getAssociatedDeposit());
         dto.setStatus(swap.getStatus());
+        dto.setSwapTitle(swap.getSwapTitle());
 
 
         if (swap.getSender() != null) {
@@ -71,6 +77,7 @@ public class ProposeSwapServiceImpl implements ProposeSwapService {
         swap.setSwapDuration(swapDuration);
         swap.setAssociatedDeposit(associatedDeposit);
         swap.setStatus(RequestStatus.PENDING);
+        swap.setSwapTitle(aiService.titleFromDescription(swapDetails));
 
         return proposeSwapRepository.save(swap);
     }

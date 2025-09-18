@@ -25,28 +25,10 @@ public class CohereService {
         this.objectMapper = objectMapper;
     }
 
-    public String interest(String question) {
+    public String Ai(String question) {
         String response = "I'm not sure how to answer that.";
 
-        // List of creator-related questions
-        String[] creatorKeywords = {
-//                "who is your creator",
-//                "who created you",
-//                "who are you made by",
-//                "who is the developer",
-//                "who is the owner"
-        };
 
-        // Check if the question contains any of the creator-related keywords
-        for (String keyword : creatorKeywords) {
-            if (question.toLowerCase().contains(keyword)) {
-//                response = "I am developed by Yeamim Hossain Sajid and Md Sifat Bin Jibon. They both are currently studying at United International University.";
-                response="";
-                return response;
-            }
-        }
-
-        // If no creator-related keyword is found, use the API to generate a response
         if (response.equals("I'm not sure how to answer that.")) {
             try {
                 String url = "https://api.cohere.ai/v1/generate";
@@ -54,7 +36,6 @@ public class CohereService {
                 headers.set("Authorization", "Bearer " + cohereApiKey);
                 headers.set("Content-Type", "application/json");
 
-                // Build the request body using ObjectMapper
                 ObjectNode requestBody = objectMapper.createObjectNode();
                 requestBody.put("prompt", question);
                 requestBody.put("max_tokens", 250);
@@ -63,13 +44,11 @@ public class CohereService {
                 HttpEntity<String> entity = new HttpEntity<>(objectMapper.writeValueAsString(requestBody), headers);
                 ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
-                // Check if we received a valid response from the API
                 if (responseEntity.getBody() != null) {
                     JsonNode responseJson = objectMapper.readTree(responseEntity.getBody());
-                    // Debug log: Print the raw API response
+
                     System.out.println("API Response: " + responseEntity.getBody());
 
-                    // Safeguard: Check if "generations" is not null and has elements
                     JsonNode generationsNode = responseJson.path("generations");
                     if (generationsNode.isArray() && generationsNode.size() > 0) {
                         response = generationsNode.get(0).path("text").asText("No response from Cohere API.");
