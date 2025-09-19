@@ -23,5 +23,7 @@ public class CustomUserResponseDtoCls {
     private ProfileResponseDto profile;
     private Double rating;
     private Boolean isActive;
+    private Boolean isAvailable;
+    private Boolean isVerified;
 }
 

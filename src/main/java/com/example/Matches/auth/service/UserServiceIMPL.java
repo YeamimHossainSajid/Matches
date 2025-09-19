@@ -125,6 +125,8 @@ public class UserServiceIMPL implements UserService {
         dto.setEmail(user.getEmail());
         dto.setRoles(roles);
         dto.setReviewsReceived(reviewsReceived);
+        dto.setIsAvailable(user.getIsAvailable());
+        dto.setIsVerified(user.getIsVerified());
         dto.setProfile(profileDto);
 
         return dto;
