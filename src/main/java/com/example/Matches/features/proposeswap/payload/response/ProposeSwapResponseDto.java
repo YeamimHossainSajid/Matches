@@ -25,5 +25,4 @@ public class ProposeSwapResponseDto {
 
     private SwapUserResponseDto sender;
 
-
 }
