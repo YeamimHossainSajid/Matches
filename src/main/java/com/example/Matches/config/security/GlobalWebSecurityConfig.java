@@ -68,9 +68,8 @@ public class GlobalWebSecurityConfig {
                                     "/swagger-ui.html"
                             )
                             .permitAll()
-                            .anyRequest().
-                            permitAll();
-                    //.authenticated();
+                            .anyRequest()
+                            .authenticated();
 
                 })
                 .authenticationProvider(daoAuthenticationProvider())
